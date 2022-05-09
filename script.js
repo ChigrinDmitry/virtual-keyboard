@@ -336,3 +336,14 @@ const KEYBOARD = {
     });
   },
 };
+
+  // start web-page
+
+  window.onload = () => {
+    KEYBOARD.createKeyboard();
+    KEYBOARD.restoreLanguage();
+    KEYBOARD.createKeys(KEYS, KEYBOARD.properties.language);
+    KEYBOARD.attributes.keys = KEYBOARD.attributes.keysContainer.querySelectorAll(".key");
+    KEYBOARD.pressKeyboard();
+    KEYBOARD.materialKeyboard();
+  };
