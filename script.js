@@ -68,3 +68,77 @@ const KEYS = [
     { id: "ArrowRight", layoutEn: "\u02c3", layoutEnSymb: " ", layoutRu: "\u02c3", layoutRuSymb: " ", type: "functional-arrow", },
   ];
   
+// create keyboard and set it's attributes and properties
+
+const KEYBOARD = {
+
+  attributes: {
+    section: null,
+    input: null,
+    keys: [],
+    keysContainer: null,
+  },
+
+  properties: {
+    capsLock: false,
+    shift: false,
+    language: "eng",
+    animation: true,
+  },
+
+  createKeys(keys, language) {
+    keys.forEach((key) => {
+      const keyboardElement = document.createElement("button");
+      keyboardElement.setAttribute("type", "button");
+      keyboardElement.classList.add("key");
+      if (key.type === "functional") {
+        keyboardElement.classList.add("key-medium", "key-functional");
+      } else if (key.type === "functional-space") {
+        keyboardElement.classList.add("key-large");
+      } else if (key.type === "functional-ctrl") {
+        keyboardElement.classList.add("key-ctrl");
+      }
+      if (language === "eng") {
+        keyboardElement.setAttribute("value", key.layoutEn);
+        keyboardElement.setAttribute("name", key.layoutEnSymb);
+        keyboardElement.innerHTML = `<span>${key.layoutEnSymb} <br> ${key.layoutEn}</span>`;
+      } else {
+        keyboardElement.setAttribute("value", key.layoutRu);
+        keyboardElement.setAttribute("name", key.layoutRuSymb);
+        keyboardElement.innerHTML = `<span>${key.layoutRuSymb} <br> ${key.layoutRu}</span>`;
+      }
+      keyboardElement.id = key.id;
+      this.attributes.keysContainer.append(keyboardElement);
+    });
+  },
+
+  // language settings 
+
+  changeLanguage() {
+    if (this.properties.language === "eng") {
+      this.properties.language = "rus";
+    } else {
+      this.properties.language = "eng";
+    }
+    this.createLanguageState();
+    this.saveLanguage();
+  },
+
+  createLanguageState() {
+    document.querySelectorAll(".key").forEach((element) => {
+      element.remove();
+    });
+    this.createKeys(KEYS, this.properties.language);
+    this.properties.shift = false;
+  },
+
+  saveLanguage() {
+    sessionStorage.setItem("language", this.properties.language);
+  },
+  restoreLanguage() {
+    if (sessionStorage.getItem("language")) {
+      this.properties.language = sessionStorage.getItem("language");
+    } else this.properties.language = "eng";
+  },
+
+};
