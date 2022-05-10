@@ -339,7 +339,7 @@ const KEYBOARD = {
 
   // start web-page
 
-window.onload = () => {
+  window.onload = () => {
     KEYBOARD.createKeyboard();
     KEYBOARD.restoreLanguage();
     KEYBOARD.createKeys(KEYS, KEYBOARD.properties.language);
